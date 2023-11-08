@@ -1,0 +1,134 @@
+:root {
+    font-size: 62.5%
+  }
+  
+  body {
+    font-size: 1.4rem;
+  }
+  
+  h1 {
+    font-size: 2.4rem;
+  }
+  
+  h2 {
+    font-size: 2rem;
+  }
+  
+  h3 {
+    font-size: 1.8rem;
+  }
+  
+  h4 {
+    font-size: 1.6rem;
+  }
+  
+  span, p, b, li {
+    font-size: 1.4rem;
+  }
+  
+  body > * {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  
+  .error-message-box {
+    color: red;
+    font-weight: bold;
+    border: 1px solid red;
+  }
+  
+  .error-message {
+    color: red;
+  }
+  
+  section, .block {
+    margin: .8rem 0;
+    padding: 1.6rem;
+    border-radius: .4rem;
+    border: 1px solid #efefef;
+  }
+  
+  section.login {
+  
+  }
+  
+  section.registration {
+  
+  }
+  
+  section.dashboard {
+  
+  }
+  
+  header {
+  
+  }
+  
+  main {
+  
+  }
+  
+  footer {
+  
+  }
+  
+  footer .flex > * {
+    flex-grow: 1;
+  }
+  
+  .hotels.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  
+  .hotel.card {
+    flex: 0 1 200px;
+  }
+  
+  .hotel.card .fake-img {
+    width: 100%;
+    height: 300px;
+    background-image: url("https://picsum.photos/200/300");
+    background-position: center center;
+    background-repeat: no-repeat;
+  }
+  
+  .field p, .field p span{
+    font-size: 1.1rem;
+  }
+  
+  .field p span.helyseg {
+    font-weight: bold;
+  }
+  
+  .field p span.helyseg::before {
+    content: ' - ';
+    position: relative;
+  }
+  
+  .flex {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  
+  .flex.row {
+    flex-direction: row;
+  }
+  
+  .amenity-list {
+    padding: 0;
+    list-style-type: none;
+  }
+  
+  .copyright {
+    text-align: center;
+  }
