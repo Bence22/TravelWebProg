@@ -1,134 +1,274 @@
 :root {
-    font-size: 62.5%
-  }
-  
-  body {
-    font-size: 1.4rem;
-  }
-  
-  h1 {
-    font-size: 2.4rem;
-  }
-  
-  h2 {
-    font-size: 2rem;
-  }
-  
-  h3 {
-    font-size: 1.8rem;
-  }
-  
-  h4 {
-    font-size: 1.6rem;
-  }
-  
-  span, p, b, li {
-    font-size: 1.4rem;
-  }
-  
-  body > * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-    border: 0;
-  }
-  
-  .error-message-box {
-    color: red;
-    font-weight: bold;
-    border: 1px solid red;
-  }
-  
-  .error-message {
-    color: red;
-  }
-  
-  section, .block {
-    margin: .8rem 0;
-    padding: 1.6rem;
-    border-radius: .4rem;
-    border: 1px solid #efefef;
-  }
-  
-  section.login {
-  
-  }
-  
-  section.registration {
-  
-  }
-  
-  section.dashboard {
-  
-  }
-  
-  header {
-  
-  }
-  
-  main {
-  
-  }
-  
-  footer {
-  
-  }
-  
-  footer .flex > * {
-    flex-grow: 1;
-  }
-  
-  .hotels.container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    align-content: center;
-    gap: 1.6rem;
-    flex-wrap: wrap;
-  }
-  
-  .hotel.card {
-    flex: 0 1 200px;
-  }
-  
-  .hotel.card .fake-img {
-    width: 100%;
-    height: 300px;
-    background-image: url("https://picsum.photos/200/300");
-    background-position: center center;
-    background-repeat: no-repeat;
-  }
-  
-  .field p, .field p span{
-    font-size: 1.1rem;
-  }
-  
-  .field p span.helyseg {
-    font-weight: bold;
-  }
-  
-  .field p span.helyseg::before {
-    content: ' - ';
-    position: relative;
-  }
-  
-  .flex {
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    gap: 1.6rem;
-    flex-wrap: wrap;
-  }
-  
-  .flex.row {
-    flex-direction: row;
-  }
-  
-  .amenity-list {
-    padding: 0;
-    list-style-type: none;
-  }
-  
-  .copyright {
-    text-align: center;
-  }
+  font-size: 62.5%;
+  --primary-color: #007bff;
+  --primary-color-hover: #0056b3;
+  --secondary-color: #495057;
+  --secondary-color-hover: #434a50;
+  --border-color: #efefef;
+  --background-color: #f8f0fa;
+  --font-color: #495057;
+  --font-family-primary: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  --table-header-background-color: #343a40;
+}
+
+body {
+  font-size: 1.4rem;
+  font-family: var(--font-family-primary);
+  color: var(--font-color);
+}
+
+h1 {
+  font-size: 2.4rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+h4 {
+  font-size: 1.6rem;
+}
+
+span, p, b, li {
+  font-size: 1.4rem;
+}
+
+body, body > * {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+.error-message-box {
+  color: red;
+  font-weight: bold;
+  border: 1px solid red;
+}
+
+.error-message {
+  color: red;
+}
+
+section, .block {
+  margin-bottom: .8rem;
+  padding: 1.6rem;
+}
+
+footer .flex > * {
+  flex-grow: 1;
+}
+
+.hotels.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.hotel.card {
+  flex: 0 1 320px;
+}
+
+.hero {
+  text-align: center;
+}
+
+.field p, .field p span{
+  font-size: 1.1rem;
+}
+
+.field p span.helyseg {
+  font-weight: bold;
+}
+
+.field p span.helyseg::before {
+  content: ' - ';
+  position: relative;
+}
+
+.flex {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.flex.row {
+  flex-direction: row;
+}
+
+main, header, footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 0 2rem;
+}
+
+header, footer {
+  height: 10vh;
+}
+
+main {
+  min-height: 80vh;
+}
+
+footer {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-align: center;
+}
+
+footer .blocks {
+  width: 100%;
+}
+
+footer .blocks > section {
+  flex: 1 0 320px;
+  padding: 0;
+}
+
+footer .blocks > section h2 {
+  display: block;
+  margin: 0;
+  padding: 1.2rem 0 1.2rem .4rem;
+  color: white;
+  background-color: var(--primary-color);
+  border: 1px solid var(--border-color);
+}
+
+footer .blocks > section .container {
+  padding: 1.2rem;
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+.amenity-list {
+  padding: 0;
+  list-style-type: none;
+}
+
+.copyright {
+  text-align: center;
+  width: 100%;
+}
+
+.image-container img {
+  object-fit: cover;
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  height: auto;
+}
+
+.card .container {
+  padding: 1.2rem;
+}
+
+.card {
+  box-sizing: border-box;
+  margin-bottom: 20px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: var(--background-color);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section.form
+{
+  padding: 0;
+  max-width: 64rem;
+}
+
+section.table {
+  padding: 0;
+  width: 70vw;
+}
+
+/* Forms Styles */
+section.form h1 {
+  display: block;
+  margin: 0;
+  padding: 1.2rem 0 1.2rem .4rem;
+  color: white;
+  background-color: var(--primary-color);
+  border: 1px solid var(--border-color);
+}
+
+
+
+form {
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+form label, form input, form textarea {
+  display: block;
+  margin-bottom: 15px;
+  color: var(--secondary-color);
+}
+
+form textarea {
+  max-height: 12rem; /* 3x the default input height */
+  max-width: calc(100% - (1rem));
+}
+
+form input {
+  padding: 1.2rem;
+  max-width: 28rem;
+  box-sizing: border-box;
+  border: 1px solid var(--primary-color);
+  border-radius: 4px;
+  background-color: #fff;
+  color: var(--secondary-color);
+}
+
+form input[type="submit"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+.container p {
+  margin-bottom: 1rem;
+}
+
+.field span {
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.container a {
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  transition: background-color 0.3s;
+}
+
+.container a.primary {
+  background-color: var(--primary-color);
+}
+.container a.primary:hover {
+  background-color: var(--primary-color-hover);
+}
+
+.container a.secondary {
+  background-color: var(--secondary-color);
+}
+.container a.secondary:hover {
+  background-color: var(--secondary-color-hover);
+}
