@@ -14,6 +14,7 @@ class HotelModel extends BaseModel {
 
   protected string $tableHelyseg = 'helyseg';
   protected string $tableTavasz = 'tavasz';
+  protected string $tableComment = 'comments';
 
   public function __construct() {
   }
@@ -25,34 +26,26 @@ class HotelModel extends BaseModel {
     return 'az';
   }
 
-  public function list() {
-    $hotels = $this->getHotel();
-    $cards = [];
-    foreach ($hotels as $hotel) {
-      $cards[$hotel[$this->getIdColumn()]] = $this->buildCard($hotel);
-    }
-    if (empty($cards)) {
-      return '';
-    }
-    return '<div class="hotels container">' . implode($cards) . '</div>';
-
+  public function setHotelAz(string $az) {
+    $this->az = $az;
   }
+
 
   /**
    * Gets a hotel by id.
    *
    * If no id was supplied then return all the hotels.
    *
-   * @param int $id
+   * @param string $az
    *
    * @return array|false
    */
-  protected function getHotel(int $id = 0) {
+  public function getHotel(string $az = '') {
     $query_string = "
       SELECT 
         {$this->tableName}.*, 
         {$this->tableHelyseg}.nev as 'helyseg_nev', {$this->tableHelyseg}.orszag as 'orszag',
-        {$this->tableTavasz}.sorszam as 'sorszam', {$this->tableTavasz}.indulas as 'indulas',
+        {$this->tableTavasz}.szalloda_az as 'szalloda_az', {$this->tableTavasz}.indulas as 'indulas',
         {$this->tableTavasz}.idotartam as 'idotartam', {$this->tableTavasz}.ar as 'tavasz_ar'
       FROM $this->tableName
       LEFT JOIN $this->tableHelyseg ON {$this->tableName}.helyseg_az = {$this->tableHelyseg}.az
@@ -60,36 +53,28 @@ class HotelModel extends BaseModel {
     ";
 
     $params = NULL;
-    if (!empty($id)) {
+    if (!empty($az)) {
       $query_string = $query_string . " WHERE {$this->tableName}.az = :az";
-      $params[':az'] = $id;
+      $params[':az'] = $az;
     }
     $stmt = $this->getConnection()->prepare($query_string);
     $stmt->execute($params);
     return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
-  protected function buildCard(array $hotel) {
-    return "<div class='hotel card'>
-      <div class='fake-img'></div>
-      <div class='container'>
-        <div class='field'>
-          <p>{$hotel['nev']} <span class='helyseg'>{$hotel['helyseg_nev']}</span></p>
-        </div>
-        <div class='field'>
-          <p>Tengerpart tav <span>" . ($hotel['tengerpart_tav'] ?? 0) . "</span></p>
-        </div>
-        <div class='field'>
-          <p>Repter tav <span>" . ($hotel['repter_tav'] ?? 0) . "</span></p>
-        </div>
-        <div class='field'>
-          <p>Ar <span>" . ($hotel['ar'] ?? 0) . "</span></p>
-        </div>
-        <div class='field'>
-          <p>Besorolas <span>" . ($hotel['besorolas'] ?? 1) . "</span></p>
-        </div>
-      </div>
-    </div>";
+  public function getComments(string $szalloda_az) {
+    $stmt = $this->getConnection()->prepare("
+        SELECT comments.*, szalloda.nev FROM comments
+        LEFT JOIN szalloda ON comments.szalloda_az = szalloda.az
+        WHERE szalloda.az = :szalloda_az
+    ");
+    $stmt->bindParam(':szalloda_az', $szalloda_az);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
+  public function getCommentCount(string $szalloda_az) {
+    $comments = $this->getComments($szalloda_az);
+    return count($comments);
+  }
 }

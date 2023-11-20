@@ -1,8 +1,7 @@
 <?php
 
+namespace user\model;
 use base\model\BaseModel;
-
-require 'base/model/BaseModel.php';
 
 class UserModel extends BaseModel {
 
@@ -50,7 +49,7 @@ class UserModel extends BaseModel {
     $stmt->bindParam(':username', $username);
     $stmt->execute();
 
-    $user = $stmt->fetch(PDO::FETCH_ASSOC);
+    $user = $stmt->fetch(\PDO::FETCH_ASSOC);
 
     if ($user) {
       if (password_verify($password, $user['password'])) {
@@ -111,6 +110,65 @@ class UserModel extends BaseModel {
     $stmt->execute();
     $registered = TRUE;
     return $registered;
+  }
+
+  public function comment(string $szalloda_az, string $comment, int $uid = 0) {
+    !empty($uid) ?
+      $username = $_SESSION[SESSION_CURRENT_USER_NAME] :
+      $username = 'anonymous';
+
+    $stmt = $this->getConnection()->prepare("
+      INSERT INTO comments (uid, username, comment, created, szalloda_az) 
+      VALUES (:uid, :username, :comment, :created, :szalloda_az)
+    ");
+    $created = date('Y-m-d H:i:s', time());
+    $stmt->bindParam(':uid', $uid);
+    $stmt->bindParam(':username', $username);
+    $stmt->bindParam(':comment', $comment);
+    $stmt->bindParam(':created', $created);
+    $stmt->bindParam(':szalloda_az', $szalloda_az);
+    $stmt->execute();
+  }
+
+  public function deleteComment(int $cid, int $uid = 0) {
+    if (empty($uid)) {
+      $uid = $_SESSION[SESSION_CURRENT_USER_ID];
+    }
+
+    $stmt = $this->getConnection()->prepare("
+      SELECT cid FROM comments WHERE cid = :cid AND uid = :uid
+    ");
+    $stmt->bindParam(':cid', $cid);
+    $stmt->bindParam(':uid', $uid);
+    $stmt->execute();
+
+    $comment = $stmt->fetchColumn();
+    $deleted = FALSE;
+    if (!empty($comment)) {
+      $stmt = $this->getConnection()->prepare("
+      DELETE FROM comments WHERE cid = :cid
+    ");
+      $stmt->bindParam(':cid', $cid);
+      $stmt->execute();
+      $deleted = TRUE;
+    }
+    return $deleted;
+
+  }
+
+  public function getComments() {
+    if (empty($_SESSION[SESSION_CURRENT_USER_ID])) {
+      return [];
+    }
+    $uid = $_SESSION[SESSION_CURRENT_USER_ID];
+    $stmt = $this->getConnection()->prepare("
+        SELECT comments.*, szalloda.nev FROM comments
+        LEFT JOIN szalloda ON comments.szalloda_az = szalloda.az
+        WHERE uid = :uid
+    ");
+    $stmt->bindParam(':uid', $uid);
+    $stmt->execute();
+    return $stmt->fetchAll(\PDO::FETCH_ASSOC);
   }
 
   /**

@@ -1,20 +1,19 @@
 <?php
 
-class UserController {
+namespace user\controller;
+use base\controller\BaseController;
+use user\model\UserModel;
+use user\view\UserView;
+
+class UserController extends BaseController {
 
   protected UserModel $user;
   protected UserView $view;
 
-  /**
-   * HTML content.
-   *
-   * @var string
-   */
-  protected string $content;
-
-  public function __construct(UserModel $user, UserView $view) {
-    $this->user = $user;
-    $this->view = $view;
+  public function __construct() {
+    $this->user = new UserModel();
+    $this->view = new UserView();
+    $this->view->setUser($this->user);
     $this->content = '';
   }
 
@@ -32,17 +31,17 @@ class UserController {
     elseif ($action === 'logout') {
       $this->handleLogout();
     }
-    elseif ($action === 'dashboard') {
-      $this->dashboard();
+    elseif ($action === 'comment') {
+      $this->handleComment();
     }
     else {
-      header('Location: index.php?action=login');
+      $this->redirect('/login');
     }
   }
 
-  protected function handleLogin() {
+  public function handleLogin() {
     if (isset($_SESSION[SESSION_USER_LOGGED_IN])) {
-      header('Location: index.php');
+      $this->redirect('/');
     }
     if (!isset($_POST['login'])) {
       $this->content = $this->view->buildLoginForm();
@@ -52,16 +51,16 @@ class UserController {
       $password = $_POST['password'] ?? '';
       $authenticated = $this->user->authenticate($username, $password);
       if ($authenticated) {
-        header('Location: index.php?action=dashboard');
+        $this->redirect('/');
       } else {
-        header('Location: index.php?action=login&error=2');
+        $this->redirect('/login?error=2');
       }
     }
   }
 
-  protected function handleRegistration() {
+  public function handleRegistration() {
     if (isset($_SESSION[SESSION_USER_LOGGED_IN])) {
-      header('Location: index.php');
+      $this->redirect('/');
     }
     if (!isset($_POST['register'])) {
       $this->content = $this->view->buildRegistrationForm();
@@ -72,58 +71,48 @@ class UserController {
       $registered = $this->user->register($email, $username, $password);
 
       if ($registered) {
-        header('Location: index.php?action=login');
+        $this->redirect('/login');
       } else {
-        header('Location: index.php?action=register&error=1');
+        $this->redirect('/register?error=1');
       }
     }
   }
 
-  protected function handleLogout() {
+  public function handleLogout() {
     $this->content = '';
     unset($_SESSION[SESSION_CURRENT_USER_ID]);
     unset($_SESSION[SESSION_USER_LOGGED_IN]);
     session_destroy();
-    header('Location: index.php');
+    $this->redirect('/');
   }
 
-  protected function dashboard() {
-    if (empty($_SESSION[SESSION_USER_LOGGED_IN])) {
-      header('Location: index.php?action=login');
+  public function index() {
+    $this->content = '';
+  }
+
+  public function getComments() {
+    $this->content = $this->view->getComments();
+  }
+
+  public function comment(string $az = '') {
+    if (!isset($_POST['comment_text'])) {
+      $this->content = $this->view->buildCommentForm($az);
+    } else {
+      $hotel_az = $_POST['szalloda_az'];
+      $comment = $_POST['comment_text'];
+      $uid = $_POST['uid'];
+      $this->user->comment($hotel_az, $comment, $uid);
+      $this->redirect('/my-comments');
     }
-    $this->content = $this->view->buildDashboard();
   }
 
-  /**
-   * Getter for content.
-   *
-   * @return string
-   */
-  public function getContent() {
-    $errors = $this->getErrors();
-    if (!empty($errors)) {
-      $this->content = $errors . $this->content;
+  public function deleteComment(int $cid) {
+    $deleted = $this->user->deleteComment($cid);
+    $redirect_uri = '/my-comments';
+    if (!$deleted) {
+      $redirect_uri .= '?error=3';
     }
-    return $this->content;
+    $this->redirect($redirect_uri);
   }
 
-  /**
-   * Renders error messages.
-   *
-   * @return string
-   */
-  protected function getErrors() {
-    if (empty($_GET['error'])) {
-      return '';
-    }
-
-    $message = match ($_GET['error']) {
-      '1' => 'We already have a registration with this email address.',
-      '2' => 'Wrong credentials. Try again.',
-      default => 'Something went wrong. Try again.',
-    };
-    return '<section class="error-message-box">
-      <p class="error-message">' . $message . '</p>
-    </section>';
-  }
 }
