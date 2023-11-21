@@ -2,6 +2,7 @@
 
 namespace base\router;
 use hotels\controller\HotelServiceController;
+use mnb\service\MnbServiceController;
 use user\controller\UserController;
 class Router {
   private $routes = [];
@@ -20,6 +21,10 @@ class Router {
     $this->addRoute('#^/hotel/comments/([a-zA-Z0-9_-]+)$#', 'HotelServiceController', 'getComments');
     $this->addRoute('#^/my-comments#', 'UserController', 'getComments');
     $this->addRoute('#^/delete/comment/([a-zA-Z0-9_-]+)$#', 'UserController', 'deleteComment');
+    $this->addRoute('/\/mnb\/get-exchange-rates(\?.*)*/', 'MnbServiceController', 'getExchangeRates');
+    $this->addRoute('#^/mnb/get-info$#', 'MnbServiceController', 'getInfo');
+    $this->addRoute('#^/mnb/get-currencies$#', 'MnbServiceController', 'getCurrencies');
+    $this->addRoute('#^/mnb/get-date-interval$#', 'MnbServiceController', 'getDateInterval');
   }
 
   // Add a route pattern and its corresponding controller method
@@ -49,6 +54,9 @@ class Router {
             break;
           case 'HotelServiceController':
             $this->currentController = new HotelServiceController();
+            break;
+          case 'MnbServiceController':
+            $this->currentController = new MnbServiceController();
             break;
         }
         if (empty($this->currentController)) {

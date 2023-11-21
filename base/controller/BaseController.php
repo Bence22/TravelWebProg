@@ -1,78 +1,60 @@
 <?php
 
-namespace base\model;
-abstract class BaseModel {
+namespace base\controller;
+
+abstract class BaseController {
+
+  const EMAIL_IN_USE_ERROR = '1';
+  const WRONG_CREDENTIALS_ERROR = '2';
+  const CANNOT_DELETE_OTHERS_COMMENT_ERROR = '3';
+  const SOAP_GET_EXCHANGE_RATES_ERROR = '4';
+  const SOAP_GET_EXCHANGE_RATES_CURRENCIES_ARE_THE_SAME_ERROR = '5';
 
   /**
-   * @var \PDO $db
+   * HTML content.
    *
-   * Database connection.
+   * @var string
    */
-  private \PDO $db;
-
-  protected string $tableName;
-
+  protected string $content = '';
   /**
-   * Entity id.
-   *
-   * @var int|null
-   */
-  protected $id = NULL;
-
-  /**
-   * Gets db connection.
-   *
-   * @return \PDO|void
-   */
-  protected function getConnection() {
-    if (empty($this->db)) {
-      // @todo manually edit these or else soap breaks.
-      $host =  'napfeny.loc'; //$_ENV['DB_HOST'];
-      $dbname =  'napfeny_tours'; //$_ENV['DB_NAME'];
-      $username =  'admin'; //$_ENV['DB_USER'];
-      $password =  '2oSdKP!!F_3V)e_h'; //$_ENV['DB_PASS'];
-
-      try {
-        $this->db = new \PDO("mysql:host=$host;dbname=$dbname", $username, $password);
-        $this->db->query('SET NAMES utf8 COLLATE utf8_hungarian_ci');
-        $this->db->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-      } catch (\PDOException $e) {
-        die("Database connection failed: " . $e->getMessage());
-      }
-    }
-    return $this->db;
-  }
-
-  /**
-   * Gets a given column name from db.
-   *
-   * @param string $column_name
-   *
-   * @return mixed|string
-   */
-  public function get(string $column_name = '') {
-    if (empty($this->id)) {
-      return '';
-    }
-    if (empty($column_name)) {
-      $column_name = '*';
-    }
-
-    $stmt = $this->getConnection()
-      ->prepare(
-        "SELECT $column_name FROM {$this->tableName}"
-        . " WHERE {$this->getIdColumn()} = :id");
-    $stmt->bindParam(':id', $this->id);
-    $stmt->execute();
-    return $stmt->fetchColumn();
-  }
-
-  /**
-   * Gets id column name.
+   * Getter for content.
    *
    * @return string
    */
-  protected function getIdColumn() {
-    return 'id';
+  public function getContent() {
+    $errors = $this->getErrors();
+    if (!empty($errors)) {
+      $this->content = $errors . $this->content;
+    }
+    return $this->content;
+  }
+
+  /**
+   * Renders error messages.
+   *
+   * @return string
+   */
+  protected function getErrors() {
+    if (empty($_GET['error'])) {
+      return '';
+    }
+
+    $message = match ($_GET['error']) {
+      self::EMAIL_IN_USE_ERROR => 'We already have a registration with this email address.',
+      self::WRONG_CREDENTIALS_ERROR => 'Wrong credentials. Try again.',
+      self::CANNOT_DELETE_OTHERS_COMMENT_ERROR => 'You cannot delete other users comments.',
+      self::SOAP_GET_EXCHANGE_RATES_ERROR => 'Something went wrong with soap. Try again.',
+      self::SOAP_GET_EXCHANGE_RATES_CURRENCIES_ARE_THE_SAME_ERROR => 'Currencies should be different.',
+      default => 'Something went wrong. Try again.',
+    };
+    return '<section class="error-message-box">
+      <p class="error-message">' . $message . '</p>
+    </section>';
+  }
+
+  protected function redirect(string $url, int $status_code = 302) {
+    unset($_POST);
+    header("Location: $url", TRUE, $status_code);
+    exit;
   }
 }

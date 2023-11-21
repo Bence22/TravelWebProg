@@ -29,4 +29,4 @@ function set_env_variables(string $path = '.env') {
   }
 }
 
-set_env_variables();
+set_env_variables($_SERVER['DOCUMENT_ROOT'] . '/.env');

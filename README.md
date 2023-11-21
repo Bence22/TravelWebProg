@@ -1,4 +1,3 @@
-# TravelWebProg
 #napfeny_tours
 
 CREATE TABLE users (
@@ -31,6 +30,14 @@ CREATE TABLE helyseg (
     orszag VARCHAR(255)
 );
 
+CREATE TABLE comments (
+cid INT AUTO_INCREMENT PRIMARY KEY,
+uid INT NOT NULL,
+username VARCHAR(255) NOT NULL,
+comment TEXT NOT NULL,
+created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+szalloda_az VARCHAR(2)
+);
 
 
 ALTER TABLE tavasz ADD CONSTRAINT fk_tavasz_szalloda FOREIGN KEY (szalloda_az) REFERENCES szalloda(az);
@@ -56,7 +63,7 @@ INSERT INTO szalloda (az, nev, besorolas, helyseg_az, tengerpart_tav, repter_tav
     (2, 'Djerba', 'Tunézia'),
     (3, 'Sharm El Sheikh', 'Egyiptom'),
     (4, 'Hurghada', 'Egyiptom');
-    
+
 INSERT INTO tavasz
 (szalloda_az,indulas,idotartam,ar)
 VALUES
@@ -515,4 +522,4 @@ VALUES
 ('TA','2011.04.13',15,230900),
 ('TA','2011.04.20',8,125900),
 ('TA','2011.04.20',15,200900),
-('TA','2011.04.27',8,125900);  
+('TA','2011.04.27',8,125900);

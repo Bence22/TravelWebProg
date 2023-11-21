@@ -53,7 +53,7 @@ class UserController extends BaseController {
       if ($authenticated) {
         $this->redirect('/');
       } else {
-        $this->redirect('/login?error=2');
+        $this->redirect('/login?error' . $this::WRONG_CREDENTIALS_ERROR);
       }
     }
   }
@@ -73,7 +73,7 @@ class UserController extends BaseController {
       if ($registered) {
         $this->redirect('/login');
       } else {
-        $this->redirect('/register?error=1');
+        $this->redirect('/register?error=' . $this::EMAIL_IN_USE_ERROR);
       }
     }
   }
@@ -110,7 +110,7 @@ class UserController extends BaseController {
     $deleted = $this->user->deleteComment($cid);
     $redirect_uri = '/my-comments';
     if (!$deleted) {
-      $redirect_uri .= '?error=3';
+      $redirect_uri .= '?error=' . $this::CANNOT_DELETE_OTHERS_COMMENT_ERROR;
     }
     $this->redirect($redirect_uri);
   }

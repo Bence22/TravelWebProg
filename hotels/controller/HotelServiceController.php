@@ -1,51 +1,18 @@
 <?php
 namespace hotels\controller;
-use base\controller\BaseController;
-  class HotelServiceController extends BaseController {
+use base\controller\SoapServiceController;
 
-    const SORT_BY_ASC = 'ASC';
-    const SORT_BY_DESC = 'DESC';
-    protected \SoapClient $client;
-
-    protected $url = '';
-
-    protected $options;
-
-    public function __construct() {
-      $this->url = $_ENV['URL'] ?? 'napfeny.loc';
-      $this->setClient();
-    }
-
-    protected function setClient() {
-      try {
-        $wsdl = NULL;
-        if (empty($options)) {
-          $options = [
-            'location' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
-            'uri' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
-            'keep_alive' => FALSE,
-            'trace' => TRUE,
-          ];
-        }
-        $this->client = new \SoapClient($wsdl, $options);
-      }
-      catch (\SoapFault $f) {
-        echo $f->getMessage();
-        $this->debug();
-      }
-    }
-
-    protected function getClient() {
-      if (empty($this->client)) {
-        $this->setClient();
-      }
-      return $this->client;
-    }
-
-    protected function debug() {
-      echo $this->client->__getLastResponse();
-      echo $this->client->__getLastRequest();
-    }
+class HotelServiceController extends SoapServiceController {
+  public function __construct() {
+    $this->url = $_ENV['URL'] ?? 'napfeny.loc';
+    $this->options = [
+      'location' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
+      'uri' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
+      'keep_alive' => FALSE,
+      'trace' => TRUE,
+    ];
+    $this->setClient();
+  }
 
     public function getHotel($id) {
       $client = $this->getClient();

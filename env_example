@@ -1,0 +1,5 @@
+DB_HOST=localhost
+DB_NAME=napfeny_tours
+DB_USER=root
+DB_PASS=root
+URL=napfeny_tours.loc

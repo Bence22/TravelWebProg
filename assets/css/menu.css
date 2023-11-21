@@ -1,127 +1,127 @@
 #menu--control {
-    display: block;
-    position: fixed;
-    top: 5rem;
-    left: 5rem;
-  
-    z-index: 1;
-  
-    -webkit-user-select: none;
-    user-select: none;
-  }
-  
-  #menu--control a {
-    text-decoration: none;
-    color: var(--primary-color);
-  
-    transition: color 0.3s ease;
-  }
-  
-  #menu--control a:hover {
-    color: var(--primary-color-hover);
-  }
-  
-  #menu--control span {
-    display: block;
-    width: 33px;
-    height: 4px;
-    margin-bottom: 5px;
-    position: relative;
-  
-    background: var(--primary-color);
-    border-radius: 3px;
-  
-    z-index: 1;
-  
-    transform-origin: 4px 0px;
-  
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-    background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
-    opacity 0.55s ease;
-  }
-  
-  #menu--control span:first-child {
-    transform-origin: 0% 0%;
-  }
-  
-  #menu--control span:nth-last-child(2)
-  {
-    transform-origin: 0% 100%;
-  }
-  
-  #menu--control input {
-    display: block;
-    width: 40px;
-    height: 32px;
-    position: absolute;
-    top: -7px;
-    left: -5px;
-  
-    cursor: pointer;
-  
-    opacity: 0; /* hide this */
-    z-index: 2; /* and place it over the hamburger */
-  
-    -webkit-touch-callout: none;
-  }
-  
-  #menu--control input:checked ~ span
-  {
-    opacity: 1;
-    transform: rotate(45deg) translate(-2px, -1px);
-    background: var(--primary-color);
-  }
-  
-  /*
-   * But let's hide the middle one.
-   */
-  #menu--control input:checked ~ span:nth-last-child(3)
-  {
-    opacity: 0;
-    transform: rotate(0deg) scale(0.2, 0.2);
-  }
-  
-  /*
-   * Ohyeah and the last one should go the other direction
-   */
-  #menu--control input:checked ~ span:nth-last-child(2)
-  {
-    transform: rotate(-45deg) translate(0, -1px);
-  }
-  
-  /*
-   * Make this absolute positioned
-   * at the top left of the screen
-   */
-  #menu
-  {
-    position: absolute;
-    width: 30rem;
-    margin: -10rem 0 0 -5rem;
-    padding: 5rem;
-    padding-top: 12.5rem;
-  
-    background: var(--background-color);
-    list-style-type: none;
-    -webkit-font-smoothing: antialiased;
-    /* to stop flickering of text in safari */
-  
-    transform-origin: 0% 0%;
-    transform: translate(-100%, 0);
-  
-    transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-  }
-  
-  #menu li
-  {
-    padding: 1rem 0;
-    font-size: 2.2rem;
-  }
-  
-  /*
-   * And let's slide it in from the left
-   */
-  #menu--control input:checked ~ ul
-  {
-    transform: none;
-  }
+  display: block;
+  position: fixed;
+  top: 5rem;
+  left: 5rem;
+
+  z-index: 1;
+
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#menu--control a {
+  text-decoration: none;
+  color: var(--primary-color);
+
+  transition: color 0.3s ease;
+}
+
+#menu--control a:hover {
+  color: var(--primary-color-hover);
+}
+
+#menu--control span {
+  display: block;
+  width: 33px;
+  height: 4px;
+  margin-bottom: 5px;
+  position: relative;
+
+  background: var(--primary-color);
+  border-radius: 3px;
+
+  z-index: 1;
+
+  transform-origin: 4px 0px;
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+  background 0.5s cubic-bezier(0.77,0.2,0.05,1.0),
+  opacity 0.55s ease;
+}
+
+#menu--control span:first-child {
+  transform-origin: 0% 0%;
+}
+
+#menu--control span:nth-last-child(2)
+{
+  transform-origin: 0% 100%;
+}
+
+#menu--control input {
+  display: block;
+  width: 40px;
+  height: 32px;
+  position: absolute;
+  top: -7px;
+  left: -5px;
+
+  cursor: pointer;
+
+  opacity: 0; /* hide this */
+  z-index: 2; /* and place it over the hamburger */
+
+  -webkit-touch-callout: none;
+}
+
+#menu--control input:checked ~ span
+{
+  opacity: 1;
+  transform: rotate(45deg) translate(-2px, -1px);
+  background: var(--primary-color);
+}
+
+/*
+ * But let's hide the middle one.
+ */
+#menu--control input:checked ~ span:nth-last-child(3)
+{
+  opacity: 0;
+  transform: rotate(0deg) scale(0.2, 0.2);
+}
+
+/*
+ * Ohyeah and the last one should go the other direction
+ */
+#menu--control input:checked ~ span:nth-last-child(2)
+{
+  transform: rotate(-45deg) translate(0, -1px);
+}
+
+/*
+ * Make this absolute positioned
+ * at the top left of the screen
+ */
+#menu
+{
+  position: absolute;
+  width: 30rem;
+  margin: -10rem 0 0 -5rem;
+  padding: 5rem;
+  padding-top: 12.5rem;
+
+  background: var(--background-color);
+  list-style-type: none;
+  -webkit-font-smoothing: antialiased;
+  /* to stop flickering of text in safari */
+
+  transform-origin: 0% 0%;
+  transform: translate(-100%, 0);
+
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+}
+
+#menu li
+{
+  padding: 1rem 0;
+  font-size: 2.2rem;
+}
+
+/*
+ * And let's slide it in from the left
+ */
+#menu--control input:checked ~ ul
+{
+  transform: none;
+}

@@ -26,11 +26,10 @@ abstract class BaseModel {
    */
   protected function getConnection() {
     if (empty($this->db)) {
-      $this->setEnvVariables();
-      $host = getenv('DB_HOST');
-      $dbname = getenv('DB_NAME');
-      $username = getenv('DB_USER');
-      $password = getenv('DB_PASS');
+      $host = $_ENV['DB_HOST'];
+      $dbname = $_ENV['DB_NAME'];
+      $username = $_ENV['DB_USER'];
+      $password = $_ENV['DB_PASS'];
 
       try {
         $this->db = new \PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -41,24 +40,6 @@ abstract class BaseModel {
       }
     }
     return $this->db;
-  }
-
-  /**
-   * Set .env variables.
-   *
-   * @param string $path
-   *   Path to .env file.
-   *
-   * @return void
-   */
-  protected function setEnvVariables(string $path = '.env') {
-    if (file_exists($path)) {
-      $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-      foreach ($lines as $line) {
-        [$name, $value] = explode('=', $line, 2);
-        putenv("$name=$value");
-      }
-    }
   }
 
   /**

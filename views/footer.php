@@ -33,3 +33,4 @@ $hotel_list_model = new hotels\model\HotelModel();
   </div>
   <p class="copyright">&copy; <?php echo date("Y"); ?> Hotel Napfeny tours</p>
 </footer>
+

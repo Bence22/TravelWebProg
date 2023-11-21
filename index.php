@@ -16,6 +16,8 @@ $controller = $router->controller();
   <link rel="stylesheet" href="/assets/css/styles.css">
   <link rel="stylesheet" href="/assets/css/menu.css">
   <link rel="stylesheet" href="/assets/css/table.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
 </head>
 <body>
 <?php include 'views/header.php'; ?>
@@ -26,7 +28,7 @@ $controller = $router->controller();
   }
 ?>
 <?php include 'views/footer.php'; ?>
-
 <script src="/assets/js/script.js"></script>
+
 </body>
 </html>
