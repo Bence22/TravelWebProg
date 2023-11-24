@@ -4,7 +4,7 @@ use base\controller\SoapServiceController;
 
 class HotelServiceController extends SoapServiceController {
   public function __construct() {
-    $this->url = $_ENV['URL'] ?? 'napfeny.loc';
+    $this->url = $_ENV['URL'];
     $this->options = [
       'location' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
       'uri' => 'http://' . $this->url . "/hotels/server/HotelServer.php",
@@ -28,10 +28,4 @@ class HotelServiceController extends SoapServiceController {
       $client = $this->getClient();
       $this->content = $client->getComments($szalloda_az);
     }
-
-    public function sortByName(string $sort_by) {
-      $client = $this->getClient();
-      $this->content = $client->sortByName($sort_by);
-    }
-
   }

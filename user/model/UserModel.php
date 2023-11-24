@@ -67,17 +67,17 @@ class UserModel extends BaseModel {
   }
 
   /**
-   * Handles user registration.
+   * Handles user registration
    *
    * @param string $email
-   *   User email.
+   *   User email
    * @param string $username
-   *   User name.
+   *   User name
    * @param string $password
-   *   Password hash, not the password itself.
+   *   Password hash, not the password itself
    *
    * @return bool|void
-   *   Either true or false.
+   *   Either true or false
    */
   public function register(string $email, string $username, string $password) {
     $registered = FALSE;
@@ -95,7 +95,7 @@ class UserModel extends BaseModel {
 
 
     if ($stmt->fetchColumn()) {
-      // we found an user with the given email.
+      // we found a user with the given email
       return $registered;
     }
 

@@ -32,13 +32,14 @@
     </div>
   </nav>
   <div class="hero">
-    <h1>Welcome
+    <h1>Welcome to Napfény Tours</h1>
+    <h4>
       <?php
       if (!empty($_SESSION[SESSION_USER_LOGGED_IN])) {
-        echo '<span class="username"> ' . $_SESSION[SESSION_CURRENT_USER_NAME] . '</span>';
+        echo '<span class="username">Logged in: ' . $_SESSION[SESSION_CURRENT_USER_NAME] . '</span>';
       }
       ?>
-      to Napfeny Tours</h1>
+    </h4>
     <p>Your Perfect Getaway</p>
   </div>
 </header>

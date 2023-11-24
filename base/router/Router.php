@@ -27,7 +27,7 @@ class Router {
     $this->addRoute('#^/mnb/get-date-interval$#', 'MnbServiceController', 'getDateInterval');
   }
 
-  // Add a route pattern and its corresponding controller method
+  // route pattern and its corresponding controller method
   public function addRoute($pattern, $controller, $controllerMethod) {
     $this->routes[$pattern] = [
       'controller' => $controller,

@@ -87,7 +87,7 @@ class UserController extends BaseController {
   }
 
   public function index() {
-    $this->content = '';
+    $this->content = '<div class="home-page"></div>';
   }
 
   public function getComments() {

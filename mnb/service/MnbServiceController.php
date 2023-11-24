@@ -128,7 +128,7 @@ class MnbServiceController extends SoapServiceController {
         "$currency_one - $currency_two rate",
       );
       $this->content =
-        '<section class="mnb">' .
+        '<section class="mnb flex">' .
         $this->buildChart() .
         $this->buildExchangeRatesForm([
         'currency_one' => $_POST['currency_one'],

@@ -24,9 +24,9 @@ abstract class BaseController {
   public function getContent() {
     $errors = $this->getErrors();
     if (!empty($errors)) {
-      $this->content = $errors . $this->content;
+      $this->content = '<div class"error-wrapper">' . $errors . $this->content . '</div>';
     }
-    return $this->content;
+    return '<main>' . $this->content . '</main>';
   }
 
   /**
